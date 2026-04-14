@@ -1,10 +1,16 @@
 using System;
 using UnityEngine;
-public class InputManager: MonoBehaviour 
+
+public class InputManager : MonoBehaviour
 {
     public Action<Vector2> OnMoveInput;
-    
-    private void Update() {
+    public Action<bool> OnSprintInput;
+    public Action OnJumpInput;
+    public Action OnClimbInput;
+    public Action OnCancelClimb;
+
+    private void Update()
+    {
         CheckMovementInput();
         CheckSprintInput();
         CheckJumpInput();
@@ -16,45 +22,55 @@ public class InputManager: MonoBehaviour
         CheckPunchInput();
         CheckMainMenuInput();
     }
-    private void CheckMovementInput() {
+
+    private void CheckMovementInput()
+    {
         float verticalAxis = Input.GetAxis("Vertical");
         float horizontalAxis = Input.GetAxis("Horizontal");
         Vector2 inputAxis = new Vector2(horizontalAxis, verticalAxis);
- 
+
         if (OnMoveInput != null)
         {
             OnMoveInput(inputAxis);
         }
     }
-    
+
     private void CheckSprintInput()
     {
-        bool isHoldSprintInput = Input.GetKey(KeyCode.LeftShift) ||
-                                 Input.GetKey(KeyCode.RightShift);
+        bool isHoldSprintInput = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
+
         if (isHoldSprintInput)
         {
-            Debug.Log("Sprinting");
+            if (OnSprintInput != null)
+            {
+                OnSprintInput(true);
+            }
         }
         else
         {
-            Debug.Log("Not Sprinting");
+            if (OnSprintInput != null)
+            {
+                OnSprintInput(false);
+            }
         }
     }
 
     private void CheckJumpInput()
     {
         bool isPressJumpInput = Input.GetKeyDown(KeyCode.Space);
-
         if (isPressJumpInput)
         {
-            Debug.Log("Jump");
+            if (OnJumpInput != null)
+            {
+                OnJumpInput();
+            }
         }
     }
 
     private void CheckCrouchInput()
     {
-        bool isPressCrouchInput = Input.GetKeyDown(KeyCode.LeftControl) ||
-                                  Input.GetKeyDown(KeyCode.RightControl);
+        bool isPressCrouchInput = Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl);
+
         if (isPressCrouchInput)
         {
             Debug.Log("Crouch");
@@ -77,7 +93,7 @@ public class InputManager: MonoBehaviour
 
         if (isPressClimbInput)
         {
-            Debug.Log("Climb");
+            OnClimbInput();
         }
     }
 
@@ -97,7 +113,10 @@ public class InputManager: MonoBehaviour
 
         if (isPressCancelInput)
         {
-            Debug.Log("Cancel Climb or Glide");
+            if (OnCancelClimb != null)
+            {
+                OnCancelClimb();
+            }
         }
     }
 
