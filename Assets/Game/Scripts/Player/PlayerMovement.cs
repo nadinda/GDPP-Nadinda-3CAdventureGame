@@ -38,6 +38,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 _climbOffset;
     [SerializeField]
     private float _climbSpeed;
+    [SerializeField]
+    private Transform _cameraTransform;
 
     private Rigidbody _rigidbody;
     private float _rotationSmoothVelocity;
@@ -55,7 +57,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (axisDirection.magnitude >= 0.1)
             {
-                float rotationAngle = Mathf.Atan2(axisDirection.x, axisDirection.y) * Mathf.Rad2Deg;
+                float rotationAngle = Mathf.Atan2(axisDirection.x, axisDirection.y) * Mathf.Rad2Deg + _cameraTransform.eulerAngles.y;
                 float smoothAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, rotationAngle, ref _rotationSmoothVelocity, _rotationSmoothTime);
                 transform.rotation = Quaternion.Euler(0f, smoothAngle, 0f);
                 movementDirection = Quaternion.Euler(0f, rotationAngle, 0f) * Vector3.forward;
@@ -151,6 +153,12 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void HideAndLockCursor()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
     private void Start()
     {
         _input.OnMoveInput += Move;
@@ -161,6 +169,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
+        HideAndLockCursor();
         _rigidbody = GetComponent<Rigidbody>();
         _speed = _walkSpeed;
         _input.OnJumpInput += Jump;
