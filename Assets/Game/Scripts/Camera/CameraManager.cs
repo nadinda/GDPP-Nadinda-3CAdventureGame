@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
@@ -13,6 +14,7 @@ public class CameraManager : MonoBehaviour
     private CinemachineFreeLook _tpsCamera;
     [SerializeField]
     private InputManager _inputManager;
+    public Action OnChangePerspective;
 
     private void Start()
     {
@@ -43,6 +45,7 @@ public class CameraManager : MonoBehaviour
 
     private void SwitchCamera()
     {
+        OnChangePerspective();
         if (CameraState == CameraState.ThirdPerson)
         {
             CameraState = CameraState.FirstPerson;
