@@ -62,6 +62,9 @@ public class PlayerMovement : MonoBehaviour
     private Transform _cameraTransform;
     [SerializeField]
     public CameraManager _cameraManager;
+    [SerializeField]
+
+    private PlayerAudioManager _playerAudioManager;
     private Rigidbody _rigidbody;
     private float _rotationSmoothVelocity;
     private float _speed;
@@ -186,6 +189,7 @@ public class PlayerMovement : MonoBehaviour
         if (_playerStance != PlayerStance.Glide && !_isGrounded)
         {
             _playerStance = PlayerStance.Glide;
+            _playerAudioManager.PlayGlideSfx();
             _animator.SetBool("IsGliding", true);
             _cameraManager.SetFPSClampedCamera(true, transform.rotation.eulerAngles);
         }
@@ -196,6 +200,7 @@ public class PlayerMovement : MonoBehaviour
         if (_playerStance == PlayerStance.Glide)
         {
             _playerStance = PlayerStance.Stand;
+            _playerAudioManager.StopGlideSfx();
             _animator.SetBool("IsGliding", false);
             _cameraManager.SetFPSClampedCamera(false, transform.rotation.eulerAngles);
         }
