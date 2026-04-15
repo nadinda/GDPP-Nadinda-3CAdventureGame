@@ -5,10 +5,16 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Game/Scenes/MainMenu.unity
     guid: 34f4f8530166a00429e83ede88b1cbee
-  - enabled: 1
+  - enabled: 0
     path: Assets/Game/Scenes/Gameplay.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Blockout/Scenes/MainMenu.unity
+    guid: ce9a14c386df09a45b130c5871acf27b
+  - enabled: 1
+    path: Assets/Blockout/Scenes/BlockoutGame.unity
+    guid: 50380ac5790d67f4893ab9398a49d2be
   m_configObjects: {}
