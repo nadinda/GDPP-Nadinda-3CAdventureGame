@@ -63,8 +63,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     public CameraManager _cameraManager;
     [SerializeField]
-
     private PlayerAudioManager _playerAudioManager;
+    [SerializeField]
+    private Transform _resetCheckpointPosition;
     private Rigidbody _rigidbody;
     private float _rotationSmoothVelocity;
     private float _speed;
@@ -75,6 +76,15 @@ public class PlayerMovement : MonoBehaviour
     private Animator _animator;
     private CapsuleCollider _collider;
     private Coroutine _resetCombo;
+
+    public void ResetPositionToCheckpoint()
+    {
+        if (_resetCheckpointPosition != null)
+        {
+            transform.position = _resetCheckpointPosition.position;
+            transform.rotation = _resetCheckpointPosition.rotation;
+        }
+    }
 
     private void Move(Vector2 axisDirection)
     {
